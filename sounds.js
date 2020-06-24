@@ -91,6 +91,7 @@ const sound = new Howl({
         g7: [827000, 2143.492063492071],
     }
 });
+
 class Queue extends Array {
     enqueue(val) {
         this.push(val);
@@ -108,13 +109,13 @@ class Queue extends Array {
         return this.length === 0;
     }
 }
-
 class PlayingNote{
     constructor(note, startTime, endTime) {
         this.note = note;
         this.start = startTime;
         this.end = endTime;
         this.soundObj = null;
+        this.noteObj = null;
     }
 
     get noteName(){
@@ -137,98 +138,135 @@ class PlayingNote{
     }
 }
 
-// CC GG AA G FF EE DD C GG FF EE D GG FF EE D
-const tasks = new Queue();
-tasks.enqueue(new PlayingNote('c4', 1000, 2500));
-tasks.enqueue(new PlayingNote('c4', 2500, 3000));
-
-tasks.enqueue(new PlayingNote('g4', 3000, 3500));
-tasks.enqueue(new PlayingNote('g4', 3500, 4000));
-
-tasks.enqueue(new PlayingNote('a4', 4000, 4500));
-tasks.enqueue(new PlayingNote('a4', 4500, 5000));
-
-tasks.enqueue(new PlayingNote('g4', 5000, 5500));
-
-tasks.enqueue(new PlayingNote('f4', 6000, 6500));
-tasks.enqueue(new PlayingNote('f4', 6500, 7000));
-
-tasks.enqueue(new PlayingNote('e4', 7000, 7500));
-tasks.enqueue(new PlayingNote('e4', 7500, 8000));
-
-tasks.enqueue(new PlayingNote('d4', 8000, 8500));
-tasks.enqueue(new PlayingNote('d4', 8500, 9000));
-
-tasks.enqueue(new PlayingNote('c4', 9000, 9500));
-
-tasks.enqueue(new PlayingNote('g4', 10000, 10500));
-tasks.enqueue(new PlayingNote('g4', 10500, 11000));
-
-tasks.enqueue(new PlayingNote('f4', 11000, 11500));
-tasks.enqueue(new PlayingNote('f4', 11500, 12000));
-
-tasks.enqueue(new PlayingNote('e4', 12000, 12500));
-tasks.enqueue(new PlayingNote('e4', 12500, 13000));
-
-tasks.enqueue(new PlayingNote('d4', 13000, 13500));
-
-tasks.enqueue(new PlayingNote('g4', 14000, 14500));
-tasks.enqueue(new PlayingNote('g4', 14500, 15000));
-
-tasks.enqueue(new PlayingNote('f4', 15000, 15500));
-tasks.enqueue(new PlayingNote('f4', 15500, 16000));
-
-tasks.enqueue(new PlayingNote('e4', 16000, 16500));
-tasks.enqueue(new PlayingNote('e4', 16500, 17000));
-
-tasks.enqueue(new PlayingNote('d4', 17000, 17500));
-
-
-
-tasks.enqueue(new PlayingNote('c4', 13000, 9500));
-
-//
-//tasks.enqueue(new PlayingNote('f4', 2500, 3500));
-
-let currentSounds = [];
+const notes_to_play = new Queue();
 let currentSoundsCount = 0;
 let playing = [];
+let fallingNotesObject = new Queue();
+const screen_height = window.innerHeight;
+const notes_field_height = 0.75 * screen_height;
+const seconds_on_notes_field = 10;
+const pixels_per_second = notes_field_height / seconds_on_notes_field;
+let lastRender = 0;
+function load_sample_song() {
+    // CC GG AA G FF EE DD C GG FF EE D GG FF EE D
+    notes_to_play.enqueue(new PlayingNote('c4', 2000, 3500));
+    notes_to_play.enqueue(new PlayingNote('c4', 3500, 4000));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 4000, 4500));
+    notes_to_play.enqueue(new PlayingNote('g4', 4500, 5000));
+
+    notes_to_play.enqueue(new PlayingNote('a4', 5000, 5500));
+    notes_to_play.enqueue(new PlayingNote('a4', 5500, 6000));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 6000, 6500));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 7000, 7500));
+    notes_to_play.enqueue(new PlayingNote('f4', 7500, 8000));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 8000, 8500));
+    notes_to_play.enqueue(new PlayingNote('e4', 8500, 9000));
+
+    notes_to_play.enqueue(new PlayingNote('d4', 9000, 9500));
+    notes_to_play.enqueue(new PlayingNote('d4', 9500, 10000));
+
+    notes_to_play.enqueue(new PlayingNote('c4', 10000, 10500));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 11000, 11500));
+    notes_to_play.enqueue(new PlayingNote('g4', 11500, 12000));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 12000, 12500));
+    notes_to_play.enqueue(new PlayingNote('f4', 12500, 13000));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 13000, 13500));
+    notes_to_play.enqueue(new PlayingNote('e4', 13500, 14000));
+
+    notes_to_play.enqueue(new PlayingNote('d4', 14000, 14500));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 15000, 15500));
+    notes_to_play.enqueue(new PlayingNote('g4', 15500, 16000));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 16000, 16500));
+    notes_to_play.enqueue(new PlayingNote('f4', 16500, 17000));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 17000, 17500));
+    notes_to_play.enqueue(new PlayingNote('e4', 17500, 18000));
+
+    notes_to_play.enqueue(new PlayingNote('d4', 18000, 18500));
+}
+
+(function () {
+    load_sample_song();
+    window.requestAnimationFrame(loop);
+
+})();
 
 function update(progress, timestamp) {
     // Update the state of the world for the elapsed time since last render
-
-    if(tasks.length !== 0)
+    create_falling_notes(timestamp);
+    console.log(timestamp);
+    if(notes_to_play.length !== 0)
     {
-        const current_task = tasks.peek();
+        const current_task = notes_to_play.peek();
         if(current_task.startTime <= timestamp)
         {
-            current_task.setSound = sound.play(current_task.noteName);
+            //current_task.setSound = sound.play(current_task.noteName);
             playing[currentSoundsCount] = current_task;
             currentSoundsCount++;
-            tasks.dequeue();
+            notes_to_play.dequeue();
         }
     }
-    console.log(playing.length);
     for(let i = 0; i < playing.length; i++){
         if(playing[i].end <= timestamp)
         {
-            sound.stop(playing[i].sound);
+            //sound.stop(playing[i].sound);
         }
     }
 }
 
-function draw() {
-    // Draw the state of the world
+
+function create_falling_notes(timestamp) {
+    for(let i = 0; i < notes_to_play.length; i++)
+    {
+        if(notes_to_play[i].start + (seconds_on_notes_field * 1000) < timestamp)
+        {
+
+        }
+    }
+    let obj_created = document.createElement("div");
+    obj_created.classList.add('falling-notes-big');
+    obj_created.id = 'fn-1';
+    obj_created.style.height = (((3500 - 2000) / 1000) * pixels_per_second) + 'px';
+    obj_created.style.position = 'absolute';
+    obj_created.style.top = '10px';
+    obj_created.style.left = '10px';
+
+    fallingNotesObject.enqueue(obj_created);
+    document.getElementById('falling-notes-space').appendChild(obj_created);
+}
+function draw(progress) {
+
+    for(let i = 0; i < fallingNotesObject.length; i++)
+    {
+        let element = fallingNotesObject[i];
+
+        let currentTop = element.getBoundingClientRect().top;
+        let offset = (progress / 1000) * pixels_per_second;
+        element.style.top = (currentTop + offset).toString() + 'px';
+
+        if (currentTop > notes_field_height)
+        {
+            element.visibility = 'hidden';
+        }
+    }
+
 }
 
 function loop(timestamp) {
     let progress = timestamp - lastRender
 
     update(progress, timestamp)
-    draw()
+    draw(progress)
 
     lastRender = timestamp
     window.requestAnimationFrame(loop)
 }
-let lastRender = 0
-window.requestAnimationFrame(loop)

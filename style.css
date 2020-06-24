@@ -1,0 +1,69 @@
+body{
+    background-color: #1D1919;
+}
+.piano-block-white{
+    width:98.8vw;
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    left:0.6vw;
+    top:75vh;
+}
+.piano-block-black{
+    width:98.8vw;
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    left:0.6vw;
+    top:75vh;
+}
+
+.piano-key-white{
+    box-sizing: border-box;
+    width:1.9vw;
+    height: 98%;
+    background-color: white;
+    border: 1px solid black;
+    position: relative;
+}
+.piano-key-invisible-1{
+    box-sizing: border-box;
+    width:1.3vw;
+    height: 70%;
+    position: relative;
+    border: 1px solid black;
+    visibility: hidden;
+}
+.piano-key-invisible-2{
+    box-sizing: border-box;
+    width:0.7vw;
+    height: 70%;
+    position: relative;
+    border: 1px solid black;
+    visibility: hidden;
+}
+.piano-key-black{
+    box-sizing: border-box;
+    width:1.2vw;
+    height: 70%;
+    background-color: black;
+    border: 1px solid black;
+}
+#falling-notes-space
+{
+    background-color: green;
+    width: 98.8vw;
+    height: 75vh;
+    position: absolute;
+    left:0.6vw;
+    top:0px;
+}
+.falling-notes-big{
+    background-color: #3399ff;
+    width:1.9vw;
+}
+/*
+4*1.9
+ */
