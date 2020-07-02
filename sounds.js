@@ -21,7 +21,7 @@ class PlayingNote{
         this.start = startTime;
         this.end = endTime;
         this.soundObj = null;
-        this.noteObj = null;
+        this.color = null;
     }
 
     get noteName(){
@@ -42,6 +42,14 @@ class PlayingNote{
     set setSound(x){
         this.soundObj = x;
     }
+
+    get getColor(){
+        return this.color;
+    }
+
+    set setColor(x){
+        this.color = x;
+    }
 }
 
 const notes_to_play = new Queue();
@@ -56,7 +64,7 @@ const pixels_per_millisecond = notes_field_height / milliseconds_on_notes_field;
 let falling_notes_count = 0;
 let lastRender = 0;
 const white_key_width = 1.9;
-const colors = ['47b9e2', 'ac1010', 'dfc00d', '18bc2e'];
+const colors = ['D1253C', 'FAAB17', '287D61', 'F43815', '199C72', 'f51720', 'f8d210', 'A7C30E'];
 function load_sounds(){
     sound = new Howl({
         src: ['piano.ogg', 'piano.mp3'],
@@ -190,8 +198,8 @@ function load_sample_song() {
     notes_to_play.enqueue(new PlayingNote('e4', 18700, 19200));
     notes_to_play.enqueue(new PlayingNote('d4', 19250, 19750));
 
-    notes_to_play.enqueue(new PlayingNote('d-4', 19800, 20300));
-    notes_to_play.enqueue(new PlayingNote('f-4', 20300, 20800));
+    notes_to_play.enqueue(new PlayingNote('d_4', 19800, 20300));
+    notes_to_play.enqueue(new PlayingNote('f_4', 20300, 20800));
 
     console.log("Done creating the song queue");
 }
@@ -238,7 +246,7 @@ function init_white_falling_note(note_to_play){
     }
     obj_created.style.top = top_position + 'px';
     obj_created.style.left = left_position + 'vw';
-    obj_created.style.backgroundColor = '#' + colors[Math.floor(Math.random() * 4)];
+    obj_created.style.backgroundColor = '#' + colors[Math.floor(Math.random() * colors.length)];
 
     falling_notes_count++;
 
@@ -259,7 +267,7 @@ function init_black_falling_note(note_to_play)
     let left_position = 0;
 
     const black_keys_offset = 13.3;
-    if(note_to_play.note === 'a-0')
+    if(note_to_play.note === 'a_0')
     {
         left_position = 1.3;
     }
@@ -283,7 +291,7 @@ function init_falling_notes() {
     for(let i = 0; i < notes_to_play.length; i++)
     {
         let obj_created;
-        if(notes_to_play[i].note.includes('-'))
+        if(notes_to_play[i].note.includes('_'))
         {
             obj_created = init_black_falling_note(notes_to_play[i]);
         }
@@ -291,7 +299,8 @@ function init_falling_notes() {
         {
             obj_created = init_white_falling_note(notes_to_play[i]);
         }
-        fallingNotesObject.enqueue(obj_created);
+        fallingNotesObject.push(obj_created);
+        notes_to_play[i].setColor = obj_created.style.backgroundColor;
         document.getElementById('falling-notes-space').appendChild(obj_created);
     }
 }
@@ -344,7 +353,7 @@ function draw(progress) {
         if (currentTop > notes_field_height)
         {
             const note_to_clear = element.id.slice(3);
-            if(note_to_clear.indexOf('-') === -1)
+            if(note_to_clear.indexOf('_') === -1)
             {
                 document.getElementById(note_to_clear).style.backgroundColor = "#FFFFFF";
             }
@@ -356,13 +365,7 @@ function draw(progress) {
         }
     }
     for(let i = 0; i < notes_playing.length; i++){
-        for(let j = 0; j < fallingNotesObject.length; j++)
-        {
-            if(fallingNotesObject[j].id === ('fn-' + notes_playing[i].note))
-            {
-                document.getElementById(notes_playing[i].note).style.backgroundColor = fallingNotesObject[j].style.backgroundColor;
-            }
-        }
+        document.getElementById(notes_playing[i].note).style.backgroundColor = notes_playing[i].getColor;
     }
 }
 
