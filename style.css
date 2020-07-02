@@ -24,7 +24,7 @@ body{
     box-sizing: border-box;
     width:1.9vw;
     height: 98%;
-    background-color: white;
+    background-color: #FFFFFF;
     border: 1px solid black;
     position: relative;
 }
@@ -62,7 +62,11 @@ body{
 .falling-notes-big{
     background-color: #3399ff;
     width:1.9vw;
+    border-radius: 10%;
 }
-/*
-4*1.9
- */
+
+.falling-notes-small{
+    background-color: #3399ff;
+    width:1.2vw;
+    border-radius: 10%;
+}
