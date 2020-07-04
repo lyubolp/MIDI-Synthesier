@@ -27,5 +27,3 @@ with open('jojo.txt', 'r') as f:
         else:
             notes[note] = time
 
-
-
