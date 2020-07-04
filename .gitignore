@@ -1,0 +1,3 @@
+midi_files/*
+*.txt
+midi_parser.py
