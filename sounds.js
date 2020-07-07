@@ -875,13 +875,45 @@ function load_sounds() {
 }
 
 function load_sample_song() {
-    //EEE EEE EGCDE FFF FFEE EEEDDEDG x2
+    //EEE EEE EGCDE FFF FFEE EEEDDEDG
+    //EEE EEE EGCDE FFF FFEE EEGGFDC
     //GEDCG GGGEDCA
     //AFEDB GGFDE
     //GEDCG GEDCA
     //AAFEDGGG
     //GAGFDCG
     //EEE EEE EGCDE FFF FFEE EEEDDEDG x2
+
+    notes_to_play.enqueue(new PlayingNote('e4', 3000, 3600));
+    notes_to_play.enqueue(new PlayingNote('e4', 3650, 4350));
+    notes_to_play.enqueue(new PlayingNote('e4', 4400, 5100));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 5300, 5900));
+    notes_to_play.enqueue(new PlayingNote('e4', 5950, 6550));
+    notes_to_play.enqueue(new PlayingNote('e4', 6600, 7200));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 7400, 8000));
+    notes_to_play.enqueue(new PlayingNote('g4', 8050, 8650));
+    notes_to_play.enqueue(new PlayingNote('c4', 8700, 9300));
+    notes_to_play.enqueue(new PlayingNote('d4', 9350, 9950));
+    notes_to_play.enqueue(new PlayingNote('e4', 10000, 10600));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 10800, 11400));
+    notes_to_play.enqueue(new PlayingNote('f4', 11450, 12050));
+    notes_to_play.enqueue(new PlayingNote('f4', 12100, 12700));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 12800, 13100));
+    notes_to_play.enqueue(new PlayingNote('f4', 13150, 13450));
+    notes_to_play.enqueue(new PlayingNote('e4', 13500, 14100));
+    notes_to_play.enqueue(new PlayingNote('e4', 14150, 14750));
+
+    /*notes_to_play.enqueue(new PlayingNote('e4', 15500, 16100));
+    notes_to_play.enqueue(new PlayingNote('e4', 16150, 16750));*/
+
+
+
+
+
     console.log("Done creating the song queue");
 }
 
