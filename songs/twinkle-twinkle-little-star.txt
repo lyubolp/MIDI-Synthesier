@@ -1,0 +1,35 @@
+
+    notes_to_play.enqueue(new PlayingNote('c4', 3000, 3500));
+    notes_to_play.enqueue(new PlayingNote('c4', 3550, 4050));
+    notes_to_play.enqueue(new PlayingNote('g4', 4100, 4600));
+    notes_to_play.enqueue(new PlayingNote('g4', 4650, 5150));
+    notes_to_play.enqueue(new PlayingNote('a4', 5200, 5700));
+    notes_to_play.enqueue(new PlayingNote('a4', 5750, 6250));
+    notes_to_play.enqueue(new PlayingNote('g4', 6300, 6800));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 7300, 7800));
+    notes_to_play.enqueue(new PlayingNote('f4', 7850, 8350));
+    notes_to_play.enqueue(new PlayingNote('e4', 8400, 8900));
+    notes_to_play.enqueue(new PlayingNote('e4', 8950, 9450));
+    notes_to_play.enqueue(new PlayingNote('d4', 9500, 10000));
+    notes_to_play.enqueue(new PlayingNote('d4', 10050, 10550));
+    notes_to_play.enqueue(new PlayingNote('c4', 10600, 11100));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 11650, 12150));
+    notes_to_play.enqueue(new PlayingNote('g4', 12200, 12700));
+    notes_to_play.enqueue(new PlayingNote('f4', 12750, 13250));
+    notes_to_play.enqueue(new PlayingNote('f4', 13300, 13800));
+    notes_to_play.enqueue(new PlayingNote('e4', 13850, 14350));
+    notes_to_play.enqueue(new PlayingNote('e4', 14400, 14900));
+    notes_to_play.enqueue(new PlayingNote('d4', 14950, 15450));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 15950, 16450));
+    notes_to_play.enqueue(new PlayingNote('g4', 16500, 17000));
+    notes_to_play.enqueue(new PlayingNote('f4', 17050, 17550));
+    notes_to_play.enqueue(new PlayingNote('f4', 17600, 18100));
+    notes_to_play.enqueue(new PlayingNote('e4', 18150, 18650));
+    notes_to_play.enqueue(new PlayingNote('e4', 18700, 19200));
+    notes_to_play.enqueue(new PlayingNote('d4', 19250, 19750));
+
+    notes_to_play.enqueue(new PlayingNote('d_4', 19800, 20300));
+    notes_to_play.enqueue(new PlayingNote('f_4', 20300, 20800));

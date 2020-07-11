@@ -15,7 +15,8 @@ class Queue extends Array {
         return this.length === 0;
     }
 }
-class PlayingNote{
+
+class PlayingNote {
     constructor(note, startTime, endTime) {
         this.note = note;
         this.start = startTime;
@@ -24,11 +25,11 @@ class PlayingNote{
         this.color = null;
     }
 
-    get noteName(){
+    get noteName() {
         return this.note;
     }
 
-    get startTime(){
+    get startTime() {
         return this.start;
     }
 
@@ -36,18 +37,19 @@ class PlayingNote{
         return this.end;
     }
 
-    get sound(){
+    get sound() {
         return this.soundObj;
     }
-    set setSound(x){
+
+    set setSound(x) {
         this.soundObj = x;
     }
 
-    get getColor(){
+    get getColor() {
         return this.color;
     }
 
-    set setColor(x){
+    set setColor(x) {
         this.color = x;
     }
 }
@@ -65,13 +67,720 @@ let falling_notes_count = 0;
 let lastRender = 0;
 const white_key_width = 1.9;
 const colors = ['D1253C', 'FAAB17', '287D61', 'F43815', '199C72', 'f51720', 'f8d210', 'A7C30E'];
-function load_sounds(){
+
+function load_sounds() {
+    sounds = new Map();
+    sounds.set('a0', new Howl({
+        src: ['sounds/a0.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_0', new Howl({
+        src: ['sounds/a-0.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b0', new Howl({
+        src: ['sounds/b0.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c1', new Howl({
+        src: ['sounds/c1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_1', new Howl({
+        src: ['sounds/c-1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d1', new Howl({
+        src: ['sounds/d1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_1', new Howl({
+        src: ['sounds/d-1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e1', new Howl({
+        src: ['sounds/e1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f1', new Howl({
+        src: ['sounds/f1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_1', new Howl({
+        src: ['sounds/f-1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g1', new Howl({
+        src: ['sounds/g1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_1', new Howl({
+        src: ['sounds/g-1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a1', new Howl({
+        src: ['sounds/a1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_1', new Howl({
+        src: ['sounds/a-1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b1', new Howl({
+        src: ['sounds/b1.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c2', new Howl({
+        src: ['sounds/c2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_2', new Howl({
+        src: ['sounds/c-2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d2', new Howl({
+        src: ['sounds/d2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_2', new Howl({
+        src: ['sounds/d-2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e2', new Howl({
+        src: ['sounds/e2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f2', new Howl({
+        src: ['sounds/f2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_2', new Howl({
+        src: ['sounds/f-2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g2', new Howl({
+        src: ['sounds/g2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_2', new Howl({
+        src: ['sounds/g-2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a2', new Howl({
+        src: ['sounds/a2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_2', new Howl({
+        src: ['sounds/a-2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b2', new Howl({
+        src: ['sounds/b2.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c3', new Howl({
+        src: ['sounds/c3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_3', new Howl({
+        src: ['sounds/c-3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d3', new Howl({
+        src: ['sounds/d3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_3', new Howl({
+        src: ['sounds/d-3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e3', new Howl({
+        src: ['sounds/e3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f3', new Howl({
+        src: ['sounds/f3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_3', new Howl({
+        src: ['sounds/f-3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g3', new Howl({
+        src: ['sounds/g3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_3', new Howl({
+        src: ['sounds/g-3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a3', new Howl({
+        src: ['sounds/a3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_3', new Howl({
+        src: ['sounds/a-3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b3', new Howl({
+        src: ['sounds/b3.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c4', new Howl({
+        src: ['sounds/c4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_4', new Howl({
+        src: ['sounds/c-4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d4', new Howl({
+        src: ['sounds/d4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_4', new Howl({
+        src: ['sounds/d-4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e4', new Howl({
+        src: ['sounds/e4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f4', new Howl({
+        src: ['sounds/f4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_4', new Howl({
+        src: ['sounds/f-4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g4', new Howl({
+        src: ['sounds/g4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_4', new Howl({
+        src: ['sounds/g-4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a4', new Howl({
+        src: ['sounds/a4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_4', new Howl({
+        src: ['sounds/a-4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b4', new Howl({
+        src: ['sounds/b4.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c5', new Howl({
+        src: ['sounds/c5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_5', new Howl({
+        src: ['sounds/c-5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d5', new Howl({
+        src: ['sounds/d5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_5', new Howl({
+        src: ['sounds/d-5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e5', new Howl({
+        src: ['sounds/e5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f5', new Howl({
+        src: ['sounds/f5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_5', new Howl({
+        src: ['sounds/f-5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g5', new Howl({
+        src: ['sounds/g5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_5', new Howl({
+        src: ['sounds/g-5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a5', new Howl({
+        src: ['sounds/a5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_5', new Howl({
+        src: ['sounds/a-5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b5', new Howl({
+        src: ['sounds/b5.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c6', new Howl({
+        src: ['sounds/c6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_6', new Howl({
+        src: ['sounds/c-6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d6', new Howl({
+        src: ['sounds/d6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_6', new Howl({
+        src: ['sounds/d-6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e6', new Howl({
+        src: ['sounds/e6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f6', new Howl({
+        src: ['sounds/f6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_6', new Howl({
+        src: ['sounds/f-6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g6', new Howl({
+        src: ['sounds/g6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_6', new Howl({
+        src: ['sounds/g-6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a6', new Howl({
+        src: ['sounds/a6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_6', new Howl({
+        src: ['sounds/a-6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b6', new Howl({
+        src: ['sounds/b6.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c7', new Howl({
+        src: ['sounds/c7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c_7', new Howl({
+        src: ['sounds/c-7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d7', new Howl({
+        src: ['sounds/d7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('d_7', new Howl({
+        src: ['sounds/d-7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('e7', new Howl({
+        src: ['sounds/e7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f7', new Howl({
+        src: ['sounds/f7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('f_7', new Howl({
+        src: ['sounds/f-7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g7', new Howl({
+        src: ['sounds/g7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('g_7', new Howl({
+        src: ['sounds/g-7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a7', new Howl({
+        src: ['sounds/a7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('a_7', new Howl({
+        src: ['sounds/a-7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('b7', new Howl({
+        src: ['sounds/b7.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
+    sounds.set('c8', new Howl({
+        src: ['sounds/c8.ogg'],
+        buffer: true,
+        preload: true,
+        html5: true,
+        volume: 0.3,
+        html5PoolSize: 88,
+    }));
     sound = new Howl({
         src: ['piano.ogg', 'piano.mp3'],
         buffer: true,
         preload: true,
         html5: true,
-        volume: 1,
+        volume: 0.3,
+        html5PoolSize: 88,
         sprite: {
             a_0: [0, 9150.113378684808],
             a0: [11000, 9240.090702947848],
@@ -164,47 +873,92 @@ function load_sounds(){
         }
     });
 }
+
 function load_sample_song() {
-    // CC GG AA G FF EE DD C GG FF EE D GG FF EE D
-    notes_to_play.enqueue(new PlayingNote('c4', 3000, 3500));
-    notes_to_play.enqueue(new PlayingNote('c4', 3550, 4050));
-    notes_to_play.enqueue(new PlayingNote('g4', 4100, 4600));
-    notes_to_play.enqueue(new PlayingNote('g4', 4650, 5150));
-    notes_to_play.enqueue(new PlayingNote('a4', 5200, 5700));
-    notes_to_play.enqueue(new PlayingNote('a4', 5750, 6250));
-    notes_to_play.enqueue(new PlayingNote('g4', 6300, 6800));
+    //EEE EEE EGCDE FFF FFEE EEEDDEDG
+    //EEE EEE EGCDE FFF FFEE EEGGFDC
 
-    notes_to_play.enqueue(new PlayingNote('f4', 7300, 7800));
-    notes_to_play.enqueue(new PlayingNote('f4', 7850, 8350));
-    notes_to_play.enqueue(new PlayingNote('e4', 8400, 8900));
-    notes_to_play.enqueue(new PlayingNote('e4', 8950, 9450));
-    notes_to_play.enqueue(new PlayingNote('d4', 9500, 10000));
-    notes_to_play.enqueue(new PlayingNote('d4', 10050, 10550));
-    notes_to_play.enqueue(new PlayingNote('c4', 10600, 11100));
+    notes_to_play.enqueue(new PlayingNote('e4', 3000, 3600));
+    notes_to_play.enqueue(new PlayingNote('e4', 3650, 4350));
+    notes_to_play.enqueue(new PlayingNote('e4', 4400, 5100));
 
-    notes_to_play.enqueue(new PlayingNote('g4', 11650, 12150));
-    notes_to_play.enqueue(new PlayingNote('g4', 12200, 12700));
-    notes_to_play.enqueue(new PlayingNote('f4', 12750, 13250));
-    notes_to_play.enqueue(new PlayingNote('f4', 13300, 13800));
-    notes_to_play.enqueue(new PlayingNote('e4', 13850, 14350));
-    notes_to_play.enqueue(new PlayingNote('e4', 14400, 14900));
-    notes_to_play.enqueue(new PlayingNote('d4', 14950, 15450));
+    notes_to_play.enqueue(new PlayingNote('e4', 5300, 5900));
+    notes_to_play.enqueue(new PlayingNote('e4', 5950, 6550));
+    notes_to_play.enqueue(new PlayingNote('e4', 6600, 7200));
 
-    notes_to_play.enqueue(new PlayingNote('g4', 15950, 16450));
-    notes_to_play.enqueue(new PlayingNote('g4', 16500, 17000));
-    notes_to_play.enqueue(new PlayingNote('f4', 17050, 17550));
-    notes_to_play.enqueue(new PlayingNote('f4', 17600, 18100));
-    notes_to_play.enqueue(new PlayingNote('e4', 18150, 18650));
-    notes_to_play.enqueue(new PlayingNote('e4', 18700, 19200));
-    notes_to_play.enqueue(new PlayingNote('d4', 19250, 19750));
+    notes_to_play.enqueue(new PlayingNote('e4', 7400, 8000));
+    notes_to_play.enqueue(new PlayingNote('g4', 8050, 8650));
+    notes_to_play.enqueue(new PlayingNote('c4', 8700, 9300));
+    notes_to_play.enqueue(new PlayingNote('d4', 9350, 9950));
+    notes_to_play.enqueue(new PlayingNote('e4', 10000, 10600));
 
-    notes_to_play.enqueue(new PlayingNote('d_4', 19800, 20300));
-    notes_to_play.enqueue(new PlayingNote('f_4', 20300, 20800));
+    notes_to_play.enqueue(new PlayingNote('f4', 10800, 11400));
+    notes_to_play.enqueue(new PlayingNote('f4', 11450, 12050));
+    notes_to_play.enqueue(new PlayingNote('f4', 12100, 12700));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 12800, 13100));
+    notes_to_play.enqueue(new PlayingNote('f4', 13150, 13450));
+    notes_to_play.enqueue(new PlayingNote('e4', 13500, 14100));
+    notes_to_play.enqueue(new PlayingNote('e4', 14150, 14750));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 14800, 15100));
+    notes_to_play.enqueue(new PlayingNote('e4', 15150, 15450));
+    notes_to_play.enqueue(new PlayingNote('e4', 15150, 15450));
+    notes_to_play.enqueue(new PlayingNote('d4', 15500, 16100));
+    notes_to_play.enqueue(new PlayingNote('d4', 16150, 16750));
+    notes_to_play.enqueue(new PlayingNote('e4', 16800, 17400));
+    notes_to_play.enqueue(new PlayingNote('d4', 17450, 18050));
+    notes_to_play.enqueue(new PlayingNote('g4', 18100, 18700));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 18750, 19350));
+    notes_to_play.enqueue(new PlayingNote('e4', 19400, 20000));
+    notes_to_play.enqueue(new PlayingNote('e4', 20050, 20650));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 20850, 21450));
+    notes_to_play.enqueue(new PlayingNote('e4', 21500, 22100));
+    notes_to_play.enqueue(new PlayingNote('e4', 22150, 22750));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 23000, 23600));
+    notes_to_play.enqueue(new PlayingNote('g4', 23650, 24250));
+    notes_to_play.enqueue(new PlayingNote('c4', 24300, 24900));
+    notes_to_play.enqueue(new PlayingNote('d4', 24950, 25550));
+    notes_to_play.enqueue(new PlayingNote('e4', 25600, 26200));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 26450, 27050));
+    notes_to_play.enqueue(new PlayingNote('f4', 27100, 27700));
+    notes_to_play.enqueue(new PlayingNote('f4', 27750, 28350));
+
+    notes_to_play.enqueue(new PlayingNote('f4', 28600, 28900));
+    notes_to_play.enqueue(new PlayingNote('f4', 28950, 29250))
+    notes_to_play.enqueue(new PlayingNote('e4', 29300, 29900));
+    notes_to_play.enqueue(new PlayingNote('e4', 29950, 30550));
+
+    notes_to_play.enqueue(new PlayingNote('e4', 30600, 30900));
+    notes_to_play.enqueue(new PlayingNote('e4', 30950, 31250));
+    notes_to_play.enqueue(new PlayingNote('g4', 31300, 31900));
+    notes_to_play.enqueue(new PlayingNote('g4', 31950, 32550));
+    notes_to_play.enqueue(new PlayingNote('f4', 32600, 33200));
+    notes_to_play.enqueue(new PlayingNote('d4', 33250, 33850));
+    notes_to_play.enqueue(new PlayingNote('c4', 33900, 34500));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 34700, 35300));
+    notes_to_play.enqueue(new PlayingNote('e4', 35350, 35950));
+    notes_to_play.enqueue(new PlayingNote('d4', 36000, 36600));
+    notes_to_play.enqueue(new PlayingNote('c4', 36650, 37250));
+    notes_to_play.enqueue(new PlayingNote('g4', 37300, 37900));
+
+    notes_to_play.enqueue(new PlayingNote('g4', 38100, 38700));
+    notes_to_play.enqueue(new PlayingNote('g4', 38750, 39350));
+    notes_to_play.enqueue(new PlayingNote('g4', 39400, 40000));
+    notes_to_play.enqueue(new PlayingNote('e4', 40050, 40650));
+    notes_to_play.enqueue(new PlayingNote('d4', 40700, 41300));
+    notes_to_play.enqueue(new PlayingNote('c4', 41350, 41950));
+    notes_to_play.enqueue(new PlayingNote('a4', 42000, 42600));
 
     console.log("Done creating the song queue");
 }
 
-function init_white_falling_note(note_to_play){
+function init_white_falling_note(note_to_play) {
     let obj_created = document.createElement("div");
 
     obj_created.classList.add('falling-notes-big');
@@ -218,29 +972,19 @@ function init_white_falling_note(note_to_play){
     let top_position = (notes_field_height - object_height) - (note_to_play.start * pixels_per_millisecond);
     let left_position = 0;
 
-    if(note_to_play.note === 'a0')
-    {
+    if (note_to_play.note === 'a0') {
         left_position = 0;
-    }
-    else if(note_to_play.note === 'b0')
-    {
+    } else if (note_to_play.note === 'b0') {
         left_position = white_key_width;
-    }
-    else
-    {
+    } else {
         left_position = 2 * white_key_width;
         left_position += (note_to_play.note[1] - 1) * white_key_width * 7;
 
-        if(note_to_play.note[0] === 'a')
-        {
+        if (note_to_play.note[0] === 'a') {
             left_position += ('h'.charCodeAt(0) - 'c'.charCodeAt(0)) * white_key_width;
-        }
-        else if(note_to_play.note[0] === 'b')
-        {
+        } else if (note_to_play.note[0] === 'b') {
             left_position += ('i'.charCodeAt(0) - 'c'.charCodeAt(0)) * white_key_width;
-        }
-        else
-        {
+        } else {
             left_position += (note_to_play.note[0].charCodeAt(0) - 'c'.charCodeAt(0)) * white_key_width;
         }
     }
@@ -252,8 +996,8 @@ function init_white_falling_note(note_to_play){
 
     return obj_created;
 }
-function init_black_falling_note(note_to_play)
-{
+
+function init_black_falling_note(note_to_play) {
     let obj_created = document.createElement("div");
     obj_created.classList.add('falling-notes-small');
 
@@ -267,12 +1011,9 @@ function init_black_falling_note(note_to_play)
     let left_position = 0;
 
     const black_keys_offset = 13.3;
-    if(note_to_play.note === 'a_0')
-    {
+    if (note_to_play.note === 'a_0') {
         left_position = 1.3;
-    }
-    else
-    {
+    } else {
         left_position = 3.8;
         left_position += (note_to_play.note[2] - 1) * black_keys_offset;
         offset_table = {'c': 1.3, 'd': 3.2, 'f': 7.0, 'g': 8.9, 'a': 10.8}
@@ -287,16 +1028,13 @@ function init_black_falling_note(note_to_play)
 
     return obj_created;
 }
+
 function init_falling_notes() {
-    for(let i = 0; i < notes_to_play.length; i++)
-    {
+    for (let i = 0; i < notes_to_play.length; i++) {
         let obj_created;
-        if(notes_to_play[i].note.includes('_'))
-        {
+        if (notes_to_play[i].note.includes('_')) {
             obj_created = init_black_falling_note(notes_to_play[i]);
-        }
-        else
-        {
+        } else {
             obj_created = init_white_falling_note(notes_to_play[i]);
         }
         fallingNotesObject.push(obj_created);
@@ -313,58 +1051,52 @@ function init_falling_notes() {
 })();
 
 function update(progress, timestamp) {
+    console.log(notes_playing.length);
     // Update the state of the world for the elapsed time since last render
-    if(notes_to_play.length !== 0)
-    {
+    if (notes_to_play.length !== 0) {
         const current_task = notes_to_play.peek();
-        if(current_task.startTime <= timestamp)
-        {
-            current_task.setSound = sound.play(current_task.noteName);
+        if (current_task.startTime <= timestamp) {
+            //current_task.setSound = sound.play(current_task.noteName);
+            sounds.get(current_task.noteName).play();
             notes_playing[currentSoundsCount] = current_task;
             currentSoundsCount++;
             notes_to_play.dequeue();
         }
     }
     let indexes_to_be_removed = [];
-    for(let i = 0; i < notes_playing.length; i++){
-        if(notes_playing[i].end <= timestamp)
-        {
-            sound.stop(notes_playing[i].sound);
+    for (let i = 0; i < notes_playing.length; i++) {
+        if (notes_playing[i].end <= timestamp) {
+            sounds.get(notes_playing[i].noteName).stop();
+            //sound.stop(notes_playing[i].sound);
             indexes_to_be_removed.push(i);
         }
     }
 
-    for(let index_to_be_removed in indexes_to_be_removed)
-    {
+    for (let index_to_be_removed in indexes_to_be_removed) {
         notes_playing.splice(index_to_be_removed, 1);
         currentSoundsCount--;
     }
 }
 
 function draw(progress) {
-    for(let i = 0; i < fallingNotesObject.length; i++)
-    {
+    for (let i = 0; i < fallingNotesObject.length; i++) {
         let element = fallingNotesObject[i];
 
         let currentTop = element.getBoundingClientRect().top;
         let offset = progress * pixels_per_millisecond;
         element.style.top = (currentTop + offset).toString() + 'px';
 
-        if (currentTop > notes_field_height)
-        {
+        if (currentTop > notes_field_height) {
             const note_to_clear = element.id.slice(3);
-            if(note_to_clear.indexOf('_') === -1)
-            {
+            if (note_to_clear.indexOf('_') === -1) {
                 document.getElementById(note_to_clear).style.backgroundColor = "#FFFFFF";
-            }
-            else
-            {
+            } else {
                 document.getElementById(note_to_clear).style.backgroundColor = "#000000";
             }
             element.parentNode.removeChild(element);
         }
     }
-    for(let i = 0; i < notes_playing.length; i++){
+    for (let i = 0; i < notes_playing.length; i++) {
         document.getElementById(notes_playing[i].note).style.backgroundColor = notes_playing[i].getColor;
     }
 }
