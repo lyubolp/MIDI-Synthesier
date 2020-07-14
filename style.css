@@ -70,3 +70,32 @@ body{
     width:1.2vw;
     border-radius: 10%;
 }
+
+header
+{
+    width: 100%;
+    height:5%;
+    position: absolute;
+    left:0px;
+    top:0px;
+    background-color: #766F6F;
+    z-index: 1;
+    opacity: 0.8;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s;
+}
+header:hover
+{
+    opacity: 1;
+}
+
+button
+{
+    width: 10%;
+    height: 100%;
+    border: none;
+    background-color: white;
+}
