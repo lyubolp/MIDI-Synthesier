@@ -67,6 +67,8 @@ let falling_notes_count = 0;
 let lastRender = 0;
 const white_key_width = 1.9;
 const colors = ['D1253C', 'FAAB17', '287D61', 'F43815', '199C72', 'f51720', 'f8d210', 'A7C30E'];
+let playing = true;
+let real_timestamp = 0;
 
 function load_sounds() {
     sounds = new Map();
@@ -873,7 +875,6 @@ function load_sounds() {
         }
     });
 }
-
 function load_sample_song() {
     //EEE EEE EGCDE FFF FFEE EEEDDEDG
     //EEE EEE EGCDE FFF FFEE EEGGFDC
@@ -996,7 +997,6 @@ function init_white_falling_note(note_to_play) {
 
     return obj_created;
 }
-
 function init_black_falling_note(note_to_play) {
     let obj_created = document.createElement("div");
     obj_created.classList.add('falling-notes-small');
@@ -1040,6 +1040,20 @@ function init_falling_notes() {
         fallingNotesObject.push(obj_created);
         notes_to_play[i].setColor = obj_created.style.backgroundColor;
         document.getElementById('falling-notes-space').appendChild(obj_created);
+    }
+}
+function play_pause()
+{
+    if(playing)
+    {
+        document.getElementById('play-pause').innerText = 'Изпълняване';
+        playing = false;
+    }
+    else
+    {
+        playing = true;
+        window.requestAnimationFrame(loop);
+        document.getElementById('play-pause').innerText = 'Пауза';
     }
 }
 
@@ -1102,12 +1116,15 @@ function draw(progress) {
 }
 
 function loop(timestamp) {
-    let progress = timestamp - lastRender;
-
-    update(progress, timestamp);
-    draw(progress);
-
-    lastRender = timestamp;
+    if(playing)
+    {
+        let progress = timestamp - lastRender;
+        real_timestamp += progress;
+        update(progress, real_timestamp);
+        draw(progress);
+    }
     window.requestAnimationFrame(loop);
+    lastRender = timestamp;
+    console.log(real_timestamp);
 }
 
