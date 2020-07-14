@@ -875,88 +875,23 @@ function load_sounds() {
         }
     });
 }
-function load_sample_song() {
-    //EEE EEE EGCDE FFF FFEE EEEDDEDG
-    //EEE EEE EGCDE FFF FFEE EEGGFDC
 
-    notes_to_play.enqueue(new PlayingNote('e4', 3000, 3600));
-    notes_to_play.enqueue(new PlayingNote('e4', 3650, 4350));
-    notes_to_play.enqueue(new PlayingNote('e4', 4400, 5100));
+function load_song(song_name) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let data = JSON.parse(this.responseText).track1;
+            console.log(data.length);
+            for(let i = 0; i < data.length; i++){
+                console.log(data[i].note, parseInt(data[i].start), parseInt(data[i].end));
+                notes_to_play.enqueue(new PlayingNote(data[i].note, parseInt(data[i].start), parseInt(data[i].end)));
+            }
+            console.log("Done creating the song queue");
+        }
+    };
 
-    notes_to_play.enqueue(new PlayingNote('e4', 5300, 5900));
-    notes_to_play.enqueue(new PlayingNote('e4', 5950, 6550));
-    notes_to_play.enqueue(new PlayingNote('e4', 6600, 7200));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 7400, 8000));
-    notes_to_play.enqueue(new PlayingNote('g4', 8050, 8650));
-    notes_to_play.enqueue(new PlayingNote('c4', 8700, 9300));
-    notes_to_play.enqueue(new PlayingNote('d4', 9350, 9950));
-    notes_to_play.enqueue(new PlayingNote('e4', 10000, 10600));
-
-    notes_to_play.enqueue(new PlayingNote('f4', 10800, 11400));
-    notes_to_play.enqueue(new PlayingNote('f4', 11450, 12050));
-    notes_to_play.enqueue(new PlayingNote('f4', 12100, 12700));
-
-    notes_to_play.enqueue(new PlayingNote('f4', 12800, 13100));
-    notes_to_play.enqueue(new PlayingNote('f4', 13150, 13450));
-    notes_to_play.enqueue(new PlayingNote('e4', 13500, 14100));
-    notes_to_play.enqueue(new PlayingNote('e4', 14150, 14750));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 14800, 15100));
-    notes_to_play.enqueue(new PlayingNote('e4', 15150, 15450));
-    notes_to_play.enqueue(new PlayingNote('e4', 15150, 15450));
-    notes_to_play.enqueue(new PlayingNote('d4', 15500, 16100));
-    notes_to_play.enqueue(new PlayingNote('d4', 16150, 16750));
-    notes_to_play.enqueue(new PlayingNote('e4', 16800, 17400));
-    notes_to_play.enqueue(new PlayingNote('d4', 17450, 18050));
-    notes_to_play.enqueue(new PlayingNote('g4', 18100, 18700));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 18750, 19350));
-    notes_to_play.enqueue(new PlayingNote('e4', 19400, 20000));
-    notes_to_play.enqueue(new PlayingNote('e4', 20050, 20650));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 20850, 21450));
-    notes_to_play.enqueue(new PlayingNote('e4', 21500, 22100));
-    notes_to_play.enqueue(new PlayingNote('e4', 22150, 22750));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 23000, 23600));
-    notes_to_play.enqueue(new PlayingNote('g4', 23650, 24250));
-    notes_to_play.enqueue(new PlayingNote('c4', 24300, 24900));
-    notes_to_play.enqueue(new PlayingNote('d4', 24950, 25550));
-    notes_to_play.enqueue(new PlayingNote('e4', 25600, 26200));
-
-    notes_to_play.enqueue(new PlayingNote('f4', 26450, 27050));
-    notes_to_play.enqueue(new PlayingNote('f4', 27100, 27700));
-    notes_to_play.enqueue(new PlayingNote('f4', 27750, 28350));
-
-    notes_to_play.enqueue(new PlayingNote('f4', 28600, 28900));
-    notes_to_play.enqueue(new PlayingNote('f4', 28950, 29250))
-    notes_to_play.enqueue(new PlayingNote('e4', 29300, 29900));
-    notes_to_play.enqueue(new PlayingNote('e4', 29950, 30550));
-
-    notes_to_play.enqueue(new PlayingNote('e4', 30600, 30900));
-    notes_to_play.enqueue(new PlayingNote('e4', 30950, 31250));
-    notes_to_play.enqueue(new PlayingNote('g4', 31300, 31900));
-    notes_to_play.enqueue(new PlayingNote('g4', 31950, 32550));
-    notes_to_play.enqueue(new PlayingNote('f4', 32600, 33200));
-    notes_to_play.enqueue(new PlayingNote('d4', 33250, 33850));
-    notes_to_play.enqueue(new PlayingNote('c4', 33900, 34500));
-
-    notes_to_play.enqueue(new PlayingNote('g4', 34700, 35300));
-    notes_to_play.enqueue(new PlayingNote('e4', 35350, 35950));
-    notes_to_play.enqueue(new PlayingNote('d4', 36000, 36600));
-    notes_to_play.enqueue(new PlayingNote('c4', 36650, 37250));
-    notes_to_play.enqueue(new PlayingNote('g4', 37300, 37900));
-
-    notes_to_play.enqueue(new PlayingNote('g4', 38100, 38700));
-    notes_to_play.enqueue(new PlayingNote('g4', 38750, 39350));
-    notes_to_play.enqueue(new PlayingNote('g4', 39400, 40000));
-    notes_to_play.enqueue(new PlayingNote('e4', 40050, 40650));
-    notes_to_play.enqueue(new PlayingNote('d4', 40700, 41300));
-    notes_to_play.enqueue(new PlayingNote('c4', 41350, 41950));
-    notes_to_play.enqueue(new PlayingNote('a4', 42000, 42600));
-
-    console.log("Done creating the song queue");
+    xmlhttp.open("GET", "songs/" + song_name + ".json", false);
+    xmlhttp.send();
 }
 
 function init_white_falling_note(note_to_play) {
@@ -997,6 +932,7 @@ function init_white_falling_note(note_to_play) {
 
     return obj_created;
 }
+
 function init_black_falling_note(note_to_play) {
     let obj_created = document.createElement("div");
     obj_created.classList.add('falling-notes-small');
@@ -1042,15 +978,12 @@ function init_falling_notes() {
         document.getElementById('falling-notes-space').appendChild(obj_created);
     }
 }
-function play_pause()
-{
-    if(playing)
-    {
+
+function play_pause() {
+    if (playing) {
         document.getElementById('play-pause').innerText = 'Изпълняване';
         playing = false;
-    }
-    else
-    {
+    } else {
         playing = true;
         window.requestAnimationFrame(loop);
         document.getElementById('play-pause').innerText = 'Пауза';
@@ -1059,13 +992,12 @@ function play_pause()
 
 (function () {
     load_sounds();
-    load_sample_song();
+    load_song('jingle-bells');
     init_falling_notes();
     window.requestAnimationFrame(loop);
 })();
 
 function update(progress, timestamp) {
-    console.log(notes_playing.length);
     // Update the state of the world for the elapsed time since last render
     if (notes_to_play.length !== 0) {
         const current_task = notes_to_play.peek();
@@ -1116,8 +1048,7 @@ function draw(progress) {
 }
 
 function loop(timestamp) {
-    if(playing)
-    {
+    if (playing) {
         let progress = timestamp - lastRender;
         real_timestamp += progress;
         update(progress, real_timestamp);
@@ -1125,6 +1056,5 @@ function loop(timestamp) {
     }
     window.requestAnimationFrame(loop);
     lastRender = timestamp;
-    console.log(real_timestamp);
 }
 
