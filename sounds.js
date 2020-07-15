@@ -881,9 +881,7 @@ function load_song(song_name) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let data = JSON.parse(this.responseText).track1;
-            console.log(data.length);
             for(let i = 0; i < data.length; i++){
-                console.log(data[i].note, parseInt(data[i].start), parseInt(data[i].end));
                 notes_to_play.enqueue(new PlayingNote(data[i].note, parseInt(data[i].start), parseInt(data[i].end)));
             }
             console.log("Done creating the song queue");
@@ -894,20 +892,28 @@ function load_song(song_name) {
     xmlhttp.send();
 }
 
-function init_white_falling_note(note_to_play) {
+function init_falling_note(note_to_play, calculated_left_position)
+{
     let obj_created = document.createElement("div");
-
-    obj_created.classList.add('falling-notes-big');
-
     obj_created.id = 'fn-' + note_to_play.note;
 
     let object_height = ((note_to_play.end - note_to_play.start) * pixels_per_millisecond);
     obj_created.style.height = object_height + 'px';
+
     obj_created.style.position = 'absolute';
 
     let top_position = (notes_field_height - object_height) - (note_to_play.start * pixels_per_millisecond);
-    let left_position = 0;
+    obj_created.style.top = top_position + 'px';
 
+    obj_created.style.left = calculated_left_position + 'vw';
+
+    obj_created.style.backgroundColor = '#' + colors[Math.floor(Math.random() * colors.length)];
+
+    falling_notes_count++;
+    return obj_created;
+}
+function init_white_falling_note(note_to_play) {
+    let left_position = 0;
     if (note_to_play.note === 'a0') {
         left_position = 0;
     } else if (note_to_play.note === 'b0') {
@@ -924,44 +930,25 @@ function init_white_falling_note(note_to_play) {
             left_position += (note_to_play.note[0].charCodeAt(0) - 'c'.charCodeAt(0)) * white_key_width;
         }
     }
-    obj_created.style.top = top_position + 'px';
-    obj_created.style.left = left_position + 'vw';
-    obj_created.style.backgroundColor = '#' + colors[Math.floor(Math.random() * colors.length)];
 
-    falling_notes_count++;
-
+    let obj_created = init_falling_note(note_to_play, left_position);
+    obj_created.classList.add('falling-notes-big');
     return obj_created;
 }
-
 function init_black_falling_note(note_to_play) {
-    let obj_created = document.createElement("div");
-    obj_created.classList.add('falling-notes-small');
-
-    obj_created.id = 'fn-' + note_to_play.note;
-
-    let object_height = ((note_to_play.end - note_to_play.start) * pixels_per_millisecond);
-    obj_created.style.height = object_height + 'px';
-    obj_created.style.position = 'absolute';
-
-    let top_position = (notes_field_height - object_height) - (note_to_play.start * pixels_per_millisecond);
     let left_position = 0;
-
     const black_keys_offset = 13.3;
     if (note_to_play.note === 'a_0') {
         left_position = 1.3;
     } else {
         left_position = 3.8;
         left_position += (note_to_play.note[2] - 1) * black_keys_offset;
-        offset_table = {'c': 1.3, 'd': 3.2, 'f': 7.0, 'g': 8.9, 'a': 10.8}
+        let offset_table = {'c': 1.3, 'd': 3.2, 'f': 7.0, 'g': 8.9, 'a': 10.8}
         left_position += offset_table[note_to_play.note[0]];
-
     }
-    obj_created.style.top = top_position + 'px';
-    obj_created.style.left = left_position + 'vw';
-    obj_created.style.backgroundColor = '#' + colors[Math.floor(Math.random() * 4)];
 
-    falling_notes_count++;
-
+    let obj_created = init_falling_note(note_to_play, left_position);
+    obj_created.classList.add('falling-notes-small');
     return obj_created;
 }
 
@@ -1002,7 +989,6 @@ function update(progress, timestamp) {
     if (notes_to_play.length !== 0) {
         const current_task = notes_to_play.peek();
         if (current_task.startTime <= timestamp) {
-            //current_task.setSound = sound.play(current_task.noteName);
             sounds.get(current_task.noteName).play();
             notes_playing[currentSoundsCount] = current_task;
             currentSoundsCount++;
