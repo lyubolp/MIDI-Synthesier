@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>MIDI-Synthesiser</title>
-    <link rel="stylesheet" href="style.css"/>
-    <script src="howler.js"></script>
-    <script defer src="sounds.js"></script>
+    <link rel="stylesheet" href="../styles/app.css"/>
+    <script src="../howler.js"></script>
+    <script defer src="../JS/sounds.js"></script>
 </head>
 <body>
     <header>
+        <input type="file" id="import" value="Отваряне"/>
         <button id="play-pause" onclick="play_pause()">Пауза</button>
     </header>
     <div id="falling-notes-space">
