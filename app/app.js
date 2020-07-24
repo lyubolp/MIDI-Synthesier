@@ -69,6 +69,7 @@ const white_key_width = 1.9;
 const colors = ['D1253C', 'FAAB17', '287D61', 'F43815', '199C72', 'f51720', 'f8d210', 'A7C30E'];
 let playing = false;
 let real_timestamp = 0;
+let is_catalogue_open = false;
 
 function load_sounds() {
     sounds = new Map();
@@ -785,33 +786,40 @@ async function fetch_data(url, dataToSend) {
             method: "post",
             body: dataToSend
         });
-        return response.json();
+        return response;
     } catch (error) {
         console.error(error);
     }
 }
-
-async function import_file() {
-
-    const files = document.querySelector('[type=file]').files;
-    let file = files[0];
-
-    let url = "http://localhost/MIDI-Editor/midi-parser.php";
-    const dataToSend = new FormData();
-    dataToSend.append('file', file);
-    const song = await fetch_data(url, dataToSend);
-    start_playing(song);
-}
-
-function load_song_from_object(song_object)
+function open_catalogue()
 {
-    let data = song_object.track1;
-    for(let i = 0; i < data.length; i++){
-        notes_to_play.enqueue(new PlayingNote(data[i].note, parseInt(data[i].start), parseInt(data[i].end)));
+    const catalogue_dom = document.getElementById("catalogue");
+    if(is_catalogue_open)
+    {
+        catalogue_dom.style.visibility = 'hidden';
+        is_catalogue_open = false;
+    }
+    else
+    {
+        catalogue_dom.style.visibility = 'visible';
+        is_catalogue_open = true;
     }
 }
-
-function load_song(song_name) {
+async function load_catalogue()
+{
+    let url = "../get_catalogue.php";
+    let res = await fetch_data(url, null)
+        .then(res => res.json());
+    for(let i = 0; i < res.length; i++)
+    {
+        let song_dom = document.createElement("div");
+        song_dom.addEventListener("click", function () {load_from_catalogue(res[i].link)});
+        song_dom.innerText = res[i].name;
+        document.getElementById("catalogue").appendChild(song_dom);
+    }
+}
+function load_from_catalogue(url)
+{
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -823,8 +831,29 @@ function load_song(song_name) {
         }
     };
 
-    xmlhttp.open("GET", "../songs/" + song_name + ".json", false);
+    xmlhttp.open("GET", url, false);
     xmlhttp.send();
+
+    start_playing(song);
+}
+async function import_file() {
+
+    const files = document.querySelector('[type=file]').files;
+    let file = files[0];
+
+    let url = "../../MIDI-Editor/midi-parser.php";
+    const dataToSend = new FormData();
+    dataToSend.append('file', file);
+    const song = await fetch_data(url, dataToSend).then(res => res.json());
+    start_playing(song);
+}
+
+function load_song_from_object(song_object)
+{
+    let data = song_object.track1;
+    for(let i = 0; i < data.length; i++){
+        notes_to_play.enqueue(new PlayingNote(data[i].note, parseInt(data[i].start), parseInt(data[i].end)));
+    }
 }
 
 function start_playing(song_data)
@@ -916,17 +945,18 @@ function play_pause() {
         playing = true;
         window.requestAnimationFrame(loop);
         document.getElementById('play-pause').innerText = 'Пауза';
+
     }
 }
 
 (function () {
     load_sounds();
+    load_catalogue();
     document.getElementById("import").addEventListener("change", import_file);
     window.requestAnimationFrame(loop);
 })();
 
 function update(progress, timestamp) {
-    // Update the state of the world for the elapsed time since last render
     if (notes_to_play.length !== 0) {
         const current_task = notes_to_play.peek();
         if (current_task.startTime <= timestamp) {

@@ -1,5 +1,13 @@
-.button
+.button, button
 {
     border-radius: 10px;
     border: none;
+    margin: 10px;
+    background-color: white;
+    transition: background-color 0.5s;
+}
+
+.button, button:hover
+{
+    background-color: #C4C0C0;
 }

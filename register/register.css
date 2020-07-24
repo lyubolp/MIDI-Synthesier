@@ -1,0 +1,36 @@
+body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Ubuntu';
+    background-image: url("../img/background.png");
+}
+
+form{
+    width: 30%;
+    height:35%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+
+    color:white;
+}
+
+input
+{
+    margin: 10px;
+    border-radius: 10px;
+    height: 10%;
+}
+
+
+#submit
+{
+    width: 50%;
+    height: 25%;
+    align-self: center;
+}
