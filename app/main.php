@@ -1,16 +1,27 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>MIDI-Synthesiser</title>
-    <link rel="stylesheet" href="style.css"/>
-    <script src="howler.js"></script>
-    <script defer src="sounds.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css"/>
+    <script src="../howler.js"></script>
+    <script defer src="app.js"></script>
 </head>
 <body>
     <header>
+        <input type="file" id="import" value="Отваряне"/>
         <button id="play-pause" onclick="play_pause()">Пауза</button>
+        <button id="open-catalogue" onclick="open_catalogue()">Каталог</button>
     </header>
+    <div id="catalogue">
+        Каталог с песни:
+
+
+    </div>
     <div id="falling-notes-space">
 
     </div>

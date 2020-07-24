@@ -1,5 +1,6 @@
 body{
     background-color: #1D1919;
+    font-family: "Ubuntu", "Arial";
 }
 .piano-block-white{
     width:98.8vw;
@@ -98,4 +99,23 @@ button
     height: 100%;
     border: none;
     background-color: white;
+    margin:10px;
+}
+
+#catalogue
+{
+    position: absolute;
+    top:200px;
+    color: white;
+    z-index: 2;
+    background-color: #766F6F;
+    width: 10%;
+    padding: 1%;
+    visibility: hidden;
+}
+
+#catalogue > div
+{
+    margin: 10%;
+
 }
